@@ -2,6 +2,7 @@ import List from "@mui/material/List";
 import { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
+import { Box, Typography } from "@mui/material";
 
 //  Gets todos from local storage in the browser
 const getInitialData = () => {
@@ -52,7 +53,18 @@ export default function TodosList() {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        m: 3,
+      }}
+    >
+      <Typography variant="h2" component="h1" sx={{ flexGrow: 1 }}>
+        Todos List
+      </Typography>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {todos.map((todo) => (
           <TodoItem
@@ -64,6 +76,6 @@ export default function TodosList() {
         ))}
         <TodoForm addTodo={addTodo} />
       </List>
-    </>
+    </Box>
   );
 }
