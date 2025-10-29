@@ -5,7 +5,6 @@ import ListItemText from "@mui/material/ListItemText";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
 
 export default function TodoItem({ todo, remove, toggle }) {
   // Associates a checkbox with a unique label from each object's id
@@ -14,6 +13,7 @@ export default function TodoItem({ todo, remove, toggle }) {
   return (
     <ListItem
       secondaryAction={
+        // Deletes the task when clicked
         <IconButton edge="end" aria-label="comments" onClick={remove}>
           <DeleteIcon />
         </IconButton>
