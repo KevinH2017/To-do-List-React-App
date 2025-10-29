@@ -1,18 +1,25 @@
 import List from "@mui/material/List";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoItem from "./TodoItem";
+import TodoForm from "./TodoForm";
 
-// Example tasks
-const initialTodos = [
-  { id: 1, text: "walk the dog", completed: false },
-  { id: 2, text: "walk the cat", completed: false },
-  { id: 3, text: "walk the fish", completed: true },
-  { id: 4, text: "walk the chicken", completed: false },
-];
+//  Gets todos from local storage in the browser
+const getInitialData = () => {
+  const data = JSON.parse(localStorage.getItem("todos"));
+  // If there is no data in local storage,
+  // return empty list, else return parsed local storage
+  if (!data) return [];
+  return data;
+};
 
 export default function TodosList() {
-  // State of example tasks
-  const [todos, setTodos] = useState(initialTodos);
+  // State of tasks
+  const [todos, setTodos] = useState(getInitialData);
+
+  // Creates local storage to hold todos
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   // Deletes task with the specified id
   const removeTodo = (id) => {
@@ -21,7 +28,7 @@ export default function TodosList() {
     });
   };
 
-  // Toggles a task with the specified id to return opposite completed state
+  // Toggles task with the specified id true-to-false / false-to-true
   const toggleTodo = (id) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
@@ -31,6 +38,16 @@ export default function TodosList() {
           return todo;
         }
       });
+    });
+  };
+
+  // Adds a new task
+  const addTodo = (text) => {
+    setTodos((prevTodos) => {
+      return [
+        ...prevTodos,
+        { text: text, id: crypto.randomUUID(), completed: false },
+      ];
     });
   };
 
@@ -45,6 +62,7 @@ export default function TodosList() {
             toggle={() => toggleTodo(todo.id)}
           />
         ))}
+        <TodoForm addTodo={addTodo} />
       </List>
     </>
   );
